@@ -1,8 +1,8 @@
 package demo;
 
 public class Professor {
-    private String nome;
-    private String email;
+    private static String nome;
+    private static String email;
     private Cursos cursos;
     
     public Professor(String nome, String email, Cursos cursos) {
@@ -11,13 +11,13 @@ public class Professor {
         this.cursos = cursos;
     }
     
-    public String getNome() {
+    public static String getNome() {
         return nome;
     }
     public void setNome(String nome) {
         this.nome = nome;
     }
-    public String getEmail() {
+    public static String getEmail() {
         return email;
     }
     public void setEmail(String email) {
@@ -28,5 +28,9 @@ public class Professor {
     }
     public void setCursos(Cursos cursos) {
         this.cursos = cursos;
+    }
+
+    public static int getCargaHoraria() {
+        return 0;
     }
 }

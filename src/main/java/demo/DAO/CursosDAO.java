@@ -90,14 +90,52 @@ public class CursosDAO {
                     );
 
                     cursosList.add(curso);
+                    }
                 }
             }
+        } finally {
+            disconnect();
         }
-    } finally {
-        disconnect();
+
+        return cursosList;
     }
 
-    return cursosList;
-}
+    public double registrarNota(int alunoId, int cursoId) throws SQLException{
+        connect();
+        try {
+            String query = "SELECT nota FROM notas WHERE aluno_id=? AND curso_id=?";
+            try (PreparedStatement preparedStatement = jdbcConnection.prepareStatement(query)){
+                preparedStatement.setInt(1, alunoId);
+                preparedStatement.setInt(2, cursoId);
+                try (ResultSet resultSet = preparedStatement.executeQuery()){
+                    if (resultSet.next()){
+                        return resultSet.getInt("nota");
+                    } else{
+                        return 0;
+                    }
+                }
+            }
+        } finally {
+            disconnect();
+        }
+    }
 
+    public double calcularMediaNotas(int cursoId) throws SQLException{
+        connect();
+        try {
+            String query = "SELECT AVG(nota) AS media FROM notas WHERE cruso_id=?";
+            try (PreparedStatement preparedStatement = jdbcConnection.prepareStatement(query)){
+                preparedStatement.setInt(1, cursoId);
+                try (ResultSet resultSet = preparedStatement.executeQuery()){
+                    if (resultSet.next()){
+                        return resultSet.getDouble("media");
+                    } else {
+                        return 0;
+                    }
+                }
+            }
+        } finally {
+            disconnect();
+        }
+    }
 }
