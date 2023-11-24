@@ -1,4 +1,4 @@
-package demo;
+package demo.ententidades;
 
 public class Cursos {
     private String nome;

@@ -7,12 +7,13 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import demo.Cursos;
+
+import demo.ententidades.Cursos;
 
 public class CursosDAO {
     private String jdbcURL;
     private String jdbcUsername;
-    private String jdbcPassword;
+    private String jdbcPassword;    
     private Connection jdbcConnection;
 
     public CursosDAO(String jdbcURL, String jdbcUsername, String jdbcPassword) {
@@ -35,7 +36,7 @@ public class CursosDAO {
 
     public void disconnect() throws SQLException {
         if (jdbcConnection != null && !jdbcConnection.isClosed()) {
-            jdbcConnection.close();
+            jdbcConnection.close(); 
         }
 }
 
@@ -88,7 +89,7 @@ public class CursosDAO {
                         resultSet.getString("status"),
                         resultSet.getInt("cargaHoraria")
                     );
-
+ 
                     cursosList.add(curso);
                     }
                 }
@@ -109,7 +110,7 @@ public class CursosDAO {
                 preparedStatement.setInt(2, cursoId);
                 try (ResultSet resultSet = preparedStatement.executeQuery()){
                     if (resultSet.next()){
-                        return resultSet.getInt("nota");
+                        return resultSet.getDouble("nota");
                     } else{
                         return 0;
                     }
@@ -123,7 +124,7 @@ public class CursosDAO {
     public double calcularMediaNotas(int cursoId) throws SQLException{
         connect();
         try {
-            String query = "SELECT AVG(nota) AS media FROM notas WHERE cruso_id=?";
+            String query = "SELECT AVG(nota) AS media FROM notas WHERE curso_id=?";
             try (PreparedStatement preparedStatement = jdbcConnection.prepareStatement(query)){
                 preparedStatement.setInt(1, cursoId);
                 try (ResultSet resultSet = preparedStatement.executeQuery()){

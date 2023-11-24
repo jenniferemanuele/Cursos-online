@@ -1,14 +1,15 @@
-package demo;
+package demo.ententidades;
 
 public class Professor {
     private static String nome;
     private static String email;
     private Cursos cursos;
-    
-    public Professor(String nome, String email, Cursos cursos) {
+    private static String cursosMinistrados;
+    public Professor(String nome,String email, String cursosMinistrados) {
         this.nome = nome;
         this.email = email;
         this.cursos = cursos;
+        this.cursosMinistrados = cursosMinistrados;
     }
     
     public static String getNome() {
@@ -32,5 +33,9 @@ public class Professor {
 
     public static int getCargaHoraria() {
         return 0;
+    }
+
+    public static String getcursoMinistrado() {
+        return null;
     }
 }

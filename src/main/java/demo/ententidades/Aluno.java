@@ -1,4 +1,4 @@
-package demo;
+package demo.ententidades;
 
 public class Aluno {
     private String nome;
@@ -7,7 +7,7 @@ public class Aluno {
     private double notas;
     private boolean status;
 
-    public Aluno(String nome, String email, String cursosMatriculados, double notas, boolean status) {
+    public Aluno(String nome, String email, String cursosMatriculados) {
         this.nome = nome;
         this.email = email;
         this.cursosMatriculados = cursosMatriculados;
@@ -46,4 +46,7 @@ public class Aluno {
         this.status = status;
     }
 
+    public String getCurso() {
+        return null;
+    }
 }
