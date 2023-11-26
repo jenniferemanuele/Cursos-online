@@ -7,10 +7,9 @@ public class Aluno {
     private double notas;
     private boolean status;
 
-    public Aluno(String nome, String email, String cursosMatriculados) {
+    public Aluno(String nome, String email) {
         this.nome = nome;
         this.email = email;
-        this.cursosMatriculados = cursosMatriculados;
         this.notas = notas;
         this.status = status;
     }

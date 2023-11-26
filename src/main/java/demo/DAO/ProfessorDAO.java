@@ -24,7 +24,6 @@ public class ProfessorDAO {
     try (PreparedStatement preparedStatement = conexaoDB.prepareStatement(query)) {
       preparedStatement.setString(1, professores.getNome());
       preparedStatement.setString(2, professores.getEmail());
-      preparedStatement.setString(3, professores.getCursosMinistrados());
 
     } catch (SQLException e) {
       e.printStackTrace();
@@ -33,11 +32,10 @@ public class ProfessorDAO {
 
   public void atualizarProfessores(Professor professor) throws SQLException {
 
-    String query = "UPDATE professor SET (nome_professor=?, email_professor=?, cursos_ministrados=? WHERE id_professor=?";
+    String query = "UPDATE professor SET (nome_professor=?, email_professor=?, WHERE id_professor=?";
     try (PreparedStatement preparedStatement = conexaoDB.prepareStatement(query)) {
       preparedStatement.setString(1, professor.getNome());
       preparedStatement.setString(2, professor.getEmail());
-      preparedStatement.setString(3, professor.getCursosMinistrados());
       preparedStatement.setInt(4, professor.getID());
       preparedStatement.executeUpdate();
     } catch (SQLException e) {
@@ -55,8 +53,8 @@ public class ProfessorDAO {
         while (resultSet.next()) {
           Professor professor = new Professor(
               resultSet.getString("nome_professor"),
-              resultSet.getString("email_professor"),
-              resultSet.getString("cursos_ministrados"));
+              resultSet.getString("email_professor")
+          );
           professorList.add(professor);
         }
       }
@@ -72,8 +70,8 @@ public class ProfessorDAO {
         try (ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 Cursos curso = new Cursos(resultSet.getString("nome_curso"), resultSet.getString("status_curso"), resultSet.getInt("carga_horaria"));
-                cursos.add(curso);
-            }
+                cursos.add(curso);  
+            } 
         }
     }  
 

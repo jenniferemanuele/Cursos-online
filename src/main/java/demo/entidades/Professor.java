@@ -4,13 +4,10 @@ public class Professor {
     private String nome;
     private String email;
     private Cursos cursos;
-    private String cursosMinistrados;
     
-    public Professor(String nome,String email, String cursosMinistrados) {
+    public Professor(String nome, String email) {
         this.nome = nome;
         this.email = email;
-        this.cursos = cursos;
-        this.cursosMinistrados = cursosMinistrados;
     }
     
     public String getNome() {
