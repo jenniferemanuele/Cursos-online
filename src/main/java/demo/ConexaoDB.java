@@ -1,20 +1,16 @@
-package demo.DAO;
+package demo;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConexaoDAO {
+public class ConexaoDB {
+    private Connection conexao;
 
-    public static void main(String[] args) {
-        ConexaoDAO conexaoDAO = new ConexaoDAO();
-        conexaoDAO.testarConexao();
-    }
-
-    public void testarConexao() {
+    public ConexaoDB() {
         try {
-            Connection conexao = DriverManager.getConnection("jdbc:postgresql://localhost:3333/northwind",
-                    "postgres", "ihatethis19");
+            conexao = DriverManager.getConnection("jdbc:postgresql://localhost:3333/northwind",
+                                "postgres", "ihatethis19");
 
             if (conexao != null) {
                 System.out.println("Conexão bem-sucedida!");
@@ -24,6 +20,11 @@ public class ConexaoDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public Connection retonarConexao() {
+        return conexao;
     }
 }
 

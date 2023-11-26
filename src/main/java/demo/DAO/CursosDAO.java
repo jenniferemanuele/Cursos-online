@@ -1,142 +1,93 @@
 package demo.DAO;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import demo.ententidades.Cursos;
+import demo.entidades.Cursos;
 
 public class CursosDAO {
     private String jdbcURL;
-    private String jdbcUsername;
-    private String jdbcPassword;    
-    private Connection jdbcConnection;
+    private Connection conexaoDB;
 
-    public CursosDAO(String jdbcURL, String jdbcUsername, String jdbcPassword) {
-        this.jdbcURL = "jdbc:postgresql://localhost:3333/northwind";
-        this.jdbcUsername = "postgres";
-        this.jdbcPassword = "ihatethis19";
+    public CursosDAO(Connection conexaoDB) {
+        this.conexaoDB = conexaoDB;
     }
-
-    public void connect() throws SQLException {
-        if (jdbcConnection == null || jdbcConnection.isClosed()) {
-            try {
-                Class.forName("org.postgresql.Driver");
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-                throw new SQLException(e);
-            }
-            jdbcConnection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
-        }
-    }
-
-    public void disconnect() throws SQLException {
-        if (jdbcConnection != null && !jdbcConnection.isClosed()) {
-            jdbcConnection.close(); 
-        }
-}
 
     public void cadastrarCurso(Cursos curso) throws SQLException {
-        connect();
-        try {
-            String query = "INSERT INTO cursos (nome, status, cargaHoraria) VALUES (?, ?, ?)";
-            try (PreparedStatement preparedStatement = jdbcConnection.prepareStatement(query)) {
-                preparedStatement.setString(1, curso.getNome());
-                preparedStatement.setString(2, curso.getStatus());
-                preparedStatement.setInt(3, curso.getCargaHoraria());
-                preparedStatement.executeUpdate();
-            } catch(SQLException e){
-                e.printStackTrace();
-                }
-        } finally {
-            disconnect();
+        String query = "INSERT INTO cursos (nome_curso, status_curso, carga_horaria) VALUES (?, ?, ?)";
+        try (PreparedStatement preparedStatement = conexaoDB.prepareStatement(query)) {
+            preparedStatement.setString(1, curso.getNome());
+            preparedStatement.setString(2, curso.getStatus());
+            preparedStatement.setInt(3, curso.getCargaHoraria());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
-    
-    public void atualizarCurso(Cursos curso) throws SQLException{
-        connect();
-        try{
-            String query = "UPDATE cursos SET nome=?, status=?, cargaHoraria=? WHERE id=?";
-            try (PreparedStatement preparedStatement = jdbcConnection.prepareStatement(query)){
-                preparedStatement.setString(1, curso.getNome());
-                preparedStatement.setString(2, curso.getStatus());
-                preparedStatement.setInt(3, curso.getCargaHoraria());
-                preparedStatement.setInt(4, curso.getID());
-                preparedStatement.executeUpdate();
-            } catch(SQLException e){
-                e.printStackTrace();
-            }
-        } finally {
-            disconnect();
+
+    public void atualizarCurso(Cursos curso) throws SQLException {
+        String query = "UPDATE cursos SET nome_curso=?, status_curso=?, carga_horaria=? WHERE id_curso=?";
+        try (PreparedStatement preparedStatement = conexaoDB.prepareStatement(query)) {
+            preparedStatement.setString(1, curso.getNome());
+            preparedStatement.setString(2, curso.getStatus());
+            preparedStatement.setInt(3, curso.getCargaHoraria());
+            preparedStatement.setInt(4, curso.getID());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     public List<Cursos> listarCursos() throws SQLException {
-    connect();
-    List<Cursos> cursosList = new ArrayList<>();
+        List<Cursos> cursosList = new ArrayList<>();
 
-    try {
         String query = "SELECT * FROM cursos";
-        try (PreparedStatement preparedStatement = jdbcConnection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = conexaoDB.prepareStatement(query)) {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                        Cursos curso = new Cursos(
-                        resultSet.getString("nome"),
-                        resultSet.getString("status"),
-                        resultSet.getInt("cargaHoraria")
-                    );
- 
+                    Cursos curso = new Cursos(
+                            resultSet.getString("nome_curso"),
+                            resultSet.getString("status_curso"),
+                            resultSet.getInt("carga_horaria"));
+
                     cursosList.add(curso);
-                    }
                 }
             }
-        } finally {
-            disconnect();
         }
 
         return cursosList;
     }
 
-    public double registrarNota(int alunoId, int cursoId) throws SQLException{
-        connect();
-        try {
-            String query = "SELECT nota FROM notas WHERE aluno_id=? AND curso_id=?";
-            try (PreparedStatement preparedStatement = jdbcConnection.prepareStatement(query)){
-                preparedStatement.setInt(1, alunoId);
-                preparedStatement.setInt(2, cursoId);
-                try (ResultSet resultSet = preparedStatement.executeQuery()){
-                    if (resultSet.next()){
-                        return resultSet.getDouble("nota");
-                    } else{
-                        return 0;
-                    }
+    public double registrarNota(int id_aluno, int id_curso) throws SQLException {
+        String query = "SELECT nota FROM notas WHERE id_aluno=? AND id_curso=?";
+        try (PreparedStatement preparedStatement = conexaoDB.prepareStatement(query)) {
+            preparedStatement.setInt(1, id_aluno);
+            preparedStatement.setInt(2, id_curso);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getDouble("nota");
+                } else {
+                    return 0;
                 }
             }
-        } finally {
-            disconnect();
         }
     }
 
-    public double calcularMediaNotas(int cursoId) throws SQLException{
-        connect();
-        try {
-            String query = "SELECT AVG(nota) AS media FROM notas WHERE curso_id=?";
-            try (PreparedStatement preparedStatement = jdbcConnection.prepareStatement(query)){
-                preparedStatement.setInt(1, cursoId);
-                try (ResultSet resultSet = preparedStatement.executeQuery()){
-                    if (resultSet.next()){
-                        return resultSet.getDouble("media");
-                    } else {
-                        return 0;
-                    }
+    public double calcularMediaNotas(int id_curso) throws SQLException {
+        String query = "SELECT AVG(nota) AS media FROM notas WHERE id_curso=?";
+        try (PreparedStatement preparedStatement = conexaoDB.prepareStatement(query)) {
+            preparedStatement.setInt(1, id_curso);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getDouble("media");
+                } else {
+                    return 0;
                 }
             }
-        } finally {
-            disconnect();
         }
     }
 }

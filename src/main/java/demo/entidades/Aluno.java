@@ -1,4 +1,4 @@
-package demo.ententidades;
+package demo.entidades;
 
 public class Aluno {
     private String nome;
