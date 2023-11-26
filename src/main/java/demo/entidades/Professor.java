@@ -3,7 +3,7 @@ package demo.entidades;
 public class Professor {
     private String nome;
     private String email;
-    private Cursos cursos;
+    private Curso cursos;
     
     public Professor(String nome, String email) {
         this.nome = nome;
@@ -22,10 +22,10 @@ public class Professor {
     public void setEmail(String email) {
         this.email = email;
     }
-    public Cursos getCursos() {
+    public Curso getCursos() {
         return cursos;
     }
-    public void setCursos(Cursos cursos) {
+    public void setCursos(Curso cursos) {
         this.cursos = cursos;
     }
 

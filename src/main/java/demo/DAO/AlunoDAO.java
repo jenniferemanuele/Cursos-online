@@ -18,11 +18,10 @@ public class AlunoDAO {
     }
 
     public void cadastrarAluno(Aluno aluno) throws SQLException {     
-        String query = "INSERT INTO aluno (nome_aluno, email_aluno, cursos_matriculados) VALUES (?, ?, ?)";
+        String query = "INSERT INTO aluno (nome_aluno, email_aluno) VALUES (?, ?)";
         try (PreparedStatement preparedStatement = conexaoDB.prepareStatement(query)) {
             preparedStatement.setString(1, aluno.getNome());
             preparedStatement.setString(2, aluno.getEmail());
-            preparedStatement.setString(3, aluno.getCurso());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -50,8 +49,8 @@ public class AlunoDAO {
                 while (resultSet.next()) {
                     Aluno aluno = new Aluno(
                             resultSet.getString("nome_aluno"),
-                            resultSet.getString("email_aluno"),
-                            resultSet.getString("cursos_matriculados"));
+                            resultSet.getString("email_aluno")
+                    );
 
                     alunosList.add(aluno);
                 }

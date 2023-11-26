@@ -8,10 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import demo.entidades.Professor;
-import demo.entidades.Cursos;
+import demo.entidades.Curso;
 
 public class ProfessorDAO {
-  private String jdbcURL;
   private Connection conexaoDB;
 
   public ProfessorDAO(Connection conexaoDB) {
@@ -20,7 +19,7 @@ public class ProfessorDAO {
 
   public void cadastrarProfessor(Professor professores) throws SQLException {
 
-    String query = "INSERT INTO professor (nome_professor, email_professor, cursos_ministrados) VALUES (?, ?, ?)";
+    String query = "INSERT INTO professor (nome_professor, email_professor) VALUES (?, ?)";
     try (PreparedStatement preparedStatement = conexaoDB.prepareStatement(query)) {
       preparedStatement.setString(1, professores.getNome());
       preparedStatement.setString(2, professores.getEmail());
@@ -62,14 +61,14 @@ public class ProfessorDAO {
     return professorList;
   }
 
-  public List<Cursos> listarCursosMinistrado() throws SQLException  {
-    ArrayList<Cursos> cursos = new ArrayList<>();
+  public List<Curso> listarCursosMinistrado() throws SQLException  {
+    ArrayList<Curso> cursos = new ArrayList<>();
     
     String query = "SELECT nome_curso, status_curso, carga_horaria AS lista_cursos FROM cursos C INNER JOIN Professor P ON P.id_professor = C.id_professor WHERE id_professor=?";    
     try (PreparedStatement preparedStatement = conexaoDB.prepareStatement(query)) {
         try (ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
-                Cursos curso = new Cursos(resultSet.getString("nome_curso"), resultSet.getString("status_curso"), resultSet.getInt("carga_horaria"));
+                Curso curso = new Curso(resultSet.getString("nome_curso"), resultSet.getString("status_curso"), resultSet.getInt("carga_horaria"));
                 cursos.add(curso);  
             } 
         }
