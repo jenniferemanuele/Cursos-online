@@ -2,6 +2,7 @@ package demo;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class ConexaoDB {
@@ -25,6 +26,14 @@ public class ConexaoDB {
 
     public Connection retonarConexao() {
         return conexao;
+    }
+
+    public static PreparedStatement prepareStatement(String sql) {
+        return null;
+    }
+
+    public Connection retornarConexao() {
+        return null;
     }
 }
 

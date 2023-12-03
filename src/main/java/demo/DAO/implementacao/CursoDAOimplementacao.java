@@ -1,4 +1,4 @@
-package demo.DAO;
+package demo.DAO.implementacao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,13 +7,14 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import demo.DAO.DaoCursosInterface;
 import demo.entidades.Curso;
 
-public class CursoDAO {
+public class CursoDAOimplementacao implements DaoCursosInterface {
     private String jdbcURL;
     private Connection conexaoDB;
 
-    public CursoDAO(Connection conexaoDB) {
+    public CursoDAOimplementacao(Connection conexaoDB) {
         this.conexaoDB = conexaoDB;
     }
 
@@ -89,5 +90,29 @@ public class CursoDAO {
                 }
             }
         }
+    }
+
+    @Override
+    public void cadastrarCurso(Object entidade) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'cadastrarCurso'");
+    }
+
+    @Override
+    public void atualizarCurso(Object entidade) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'atualizarCurso'");
+    }
+
+    @Override
+    public double registrarNota(Object entidade) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'registrarNota'");
+    }
+
+    @Override
+    public double calcularMediaNotas(Object entidade) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'calcularMediaNotas'");
     }
 }

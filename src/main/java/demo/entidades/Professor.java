@@ -5,7 +5,7 @@ public class Professor {
     private String email;
     private Curso cursos;
     
-    public Professor(String nome, String email) {
+    public Professor(String string, String string2) {
         this.nome = nome;
         this.email = email;
     }
@@ -35,5 +35,12 @@ public class Professor {
 
     public int getID(){
         return 0;
+    }
+
+    public void setSenha(String senha) {
+    }
+
+    public Object getTipo() {
+        return null;
     }
 }

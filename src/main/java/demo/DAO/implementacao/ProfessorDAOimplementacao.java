@@ -1,4 +1,4 @@
-package demo.DAO;
+package demo.DAO.implementacao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,12 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import demo.entidades.Professor;
+import demo.DAO.DaoProfessorInterface;
 import demo.entidades.Curso;
 
-public class ProfessorDAO {
+public class ProfessorDAOimplementacao implements DaoProfessorInterface {
   private Connection conexaoDB;
 
-  public ProfessorDAO(Connection conexaoDB) {
+  public ProfessorDAOimplementacao(Connection conexaoDB) {
     this.conexaoDB = conexaoDB;
   }
 
@@ -53,6 +54,7 @@ public class ProfessorDAO {
           Professor professor = new Professor(
               resultSet.getString("nome_professor"),
               resultSet.getString("email_professor")
+              
           );
           professorList.add(professor);
         }
@@ -76,4 +78,30 @@ public class ProfessorDAO {
 
     return cursos;  
   }
+
+  @Override
+  public void cadastrarProfessor(Object entidade) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'cadastrarProfessor'");
+  }
+
+  @Override
+  public void atualizarProfessores(Object entidade) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'atualizarProfessores'");
+  }
+
+  @Override
+  public List listarCursosMinistrado(Professor professor) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'listarCursosMinistrado'");
+  }
+
+  @Override
+  public Professor autenticar(String email, String senha) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'autenticar'");
+  }
+
+
 }

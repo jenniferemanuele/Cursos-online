@@ -6,12 +6,16 @@ public class Aluno {
     private String cursosMatriculados;
     private double notas;
     private boolean status;
+    private String senha;
 
-    public Aluno(String nome, String email) {
+    public Aluno(String nome, String email, String senha ) {
         this.nome = nome;
         this.email = email;
         this.notas = notas;
-        this.status = status;
+        this.senha = senha;
+    }
+
+    public Aluno(int int1, String string, String string2, String string3) {
     }
 
     public String getNome() {
@@ -47,5 +51,11 @@ public class Aluno {
 
     public String getCurso() {
         return null;
+    }
+    public String getsenha() {
+        return null; 
+    }
+    public void setsenha(){
+
     }
 }

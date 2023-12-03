@@ -1,19 +1,21 @@
-package demo.DAO;
+package demo.DAO.implementacao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+
+import demo.ConexaoDB;
+import demo.DAO.DaoALunoIterface;
 import demo.entidades.Aluno;
 
-public class AlunoDAO {
+public class AlunoDAOimplementacao implements DaoALunoIterface {
     public static Object cadastrarAluno;
     private Connection conexaoDB;
 
-    public AlunoDAO(Connection conexaoDB) {
+    public AlunoDAOimplementacao(Connection conexaoDB) {
         this.conexaoDB = conexaoDB;
     }
 
@@ -22,7 +24,7 @@ public class AlunoDAO {
         try (PreparedStatement preparedStatement = conexaoDB.prepareStatement(query)) {
             preparedStatement.setString(1, aluno.getNome());
             preparedStatement.setString(2, aluno.getEmail());
-            preparedStatement.executeUpdate();
+            // preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -40,7 +42,7 @@ public class AlunoDAO {
         }
     }
 
-    public List<Aluno> listarAluno() throws SQLException {
+    public List<Aluno> listarAluno() {
         List<Aluno> alunosList = new ArrayList<>();
 
         String query = "SELECT * FROM aluno";
@@ -48,13 +50,17 @@ public class AlunoDAO {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     Aluno aluno = new Aluno(
+                            resultSet.getInt("id"), // Assuming there's an 'id' column in your database
                             resultSet.getString("nome_aluno"),
-                            resultSet.getString("email_aluno")
+                            resultSet.getString("email_aluno"),
+                            resultSet.getString("senha") // Assuming there's a 'senha' column in your database
                     );
 
                     alunosList.add(aluno);
                 }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return alunosList;
@@ -99,5 +105,36 @@ public void gerarRelatorioDesempenho(Aluno aluno) throws SQLException {
             }
         }
     }
+}
+public Aluno autenticar(String email, String senha) throws SQLException {
+    
+    // Consultar o registro do aluno na tabela
+    String sql = "SELECT * FROM aluno WHERE email = ? AND senha = ?";
+    PreparedStatement stmt = ConexaoDB.prepareStatement(sql);
+    stmt.setString(1, email);
+    stmt.setString(2, senha);
+    ResultSet rs = stmt.executeQuery();
+
+    // Se o registro for encontrado, retornar a entidade do aluno
+    if (rs.next()) {
+        int id = rs.getInt("id");
+        String nome = rs.getString("nome");
+        return new Aluno(id, nome, email, senha);
+    }
+
+    // Caso contrário, retornar null
+    return null;
+}
+
+@Override
+public int cadastrarAluno(Object entidade) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'cadastrarAluno'");
+}
+
+@Override
+public List listarAlunos() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'listarAlunos'");
 } 
 }
